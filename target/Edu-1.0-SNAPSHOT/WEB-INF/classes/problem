@@ -1,0 +1,8 @@
+1.各层都没问题，后台也获取到了数据库的值，但是前台jstl获取不到值？
+    原因：pom.xml没导jstl的包
+    如下
+    <dependency>
+        <groupId>org.glassfish.web</groupId>
+        <artifactId>jstl-impl</artifactId>
+        <version>1.2</version>
+    </dependency>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.xaut.dao.QuestinfoMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.xaut.bean.Questinfo">
+		<id column="quest_id" jdbcType="BIGINT" property="questId" />
+		<result column="quest_number" jdbcType="VARCHAR" property="questNumber" />
+		<result column="quest_from_time" jdbcType="VARCHAR" property="questFromTime" />
+		<result column="quest_from_arts" jdbcType="VARCHAR" property="questFromArts" />
+		<result column="quest_from_subject" jdbcType="VARCHAR"
+			property="questFromSubject" />
+		<result column="quest_from_sign" jdbcType="VARCHAR" property="questFromSign" />
+		<result column="quest_point" jdbcType="VARCHAR" property="questPoint" />
+		<result column="quest_class" jdbcType="VARCHAR" property="questClass" />
+		<result column="quest_video" jdbcType="VARCHAR" property="quest_videoUrl" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="cn.edu.xaut.bean.Questinfo">
+		<result column="quest_content" jdbcType="LONGVARCHAR" property="questContent" />
+		<result column="quest_analysis" jdbcType="LONGVARCHAR" property="detail_analysis" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		quest_id, quest_number, quest_from_time, quest_from_arts,
+		quest_from_subject,
+		quest_from_sign,
+		quest_point, quest_class, quest_video
+	</sql>
+	<sql id="Blob_Column_List">
+		quest_content, quest_analysis
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from questinfo
+		where quest_id = #{questId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from questinfo
+    where quest_id = #{questId,jdbcType=BIGINT}
+  	</delete>
+	<select id="selectByAnyCondition" parameterType="cn.edu.xaut.bean.Questinfo"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from questinfo
+		<where>
+			<if test="questClass!=null and questClass !=''">
+				and quest_class like concat('%',#{questClass,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="questFromTime!=null and questFromTime !=''">
+				and quest_from_time like concat('%',#{questFromTime,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="questFromArts!=null and  questFromArts!=''">
+				and quest_from_arts like concat('%',#{questFromArts,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="questFromSubject!=null and  questFromSubject!=''">
+				and quest_from_subject like
+				concat('%',#{questFromSubject,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="questFromSign !=null and questFromSign !=''">
+				and quest_from_sign like concat('%',#{questFromSign,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="questNumber != null and  questNumber!=''">
+				and quest_number like concat('%',#{questNumber,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="questPoint !=null and  questPoint!=''">
+				and quest_point like concat('%',#{questPoint,jdbcType=VARCHAR},'%')
+			</if>
+		</where>
+	</select>
+
+	<insert id="insert" parameterType="cn.edu.xaut.bean.Questinfo">
+    insert into questinfo (quest_id, quest_number, quest_from_time, 
+      quest_from_arts, quest_from_subject, quest_from_sign, 
+      quest_point, quest_class, quest_video, 
+      quest_content, quest_analysis)
+    values (#{questId,jdbcType=BIGINT}, #{questNumber,jdbcType=VARCHAR}, #{questFromTime,jdbcType=VARCHAR}, 
+      #{questFromArts,jdbcType=VARCHAR}, #{questFromSubject,jdbcType=VARCHAR}, #{questFromSign,jdbcType=VARCHAR}, 
+      #{questPoint,jdbcType=VARCHAR}, #{questClass,jdbcType=VARCHAR}, #{quest_videoUrl,jdbcType=VARCHAR}, 
+      #{questContent,jdbcType=LONGVARCHAR}, #{detail_analysis,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.xaut.bean.Questinfo" useGeneratedKeys="true" keyProperty="questId">
+    insert into questinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="questId != null">
+        quest_id,
+      </if>
+      <if test="questNumber != null">
+        quest_number,
+      </if>
+      <if test="questFromTime != null">
+        quest_from_time,
+      </if>
+      <if test="questFromArts != null">
+        quest_from_arts,
+      </if>
+      <if test="questFromSubject != null">
+        quest_from_subject,
+      </if>
+      <if test="questFromSign != null">
+        quest_from_sign,
+      </if>
+      <if test="questPoint != null">
+        quest_point,
+      </if>
+      <if test="questClass != null">
+        quest_class,
+      </if>
+      <if test="quest_videoUrl != null">
+        quest_video,
+      </if>
+      <if test="questContent != null">
+        quest_content,
+      </if>
+      <if test="detail_analysis != null">
+        quest_analysis,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="questId != null">
+        #{questId,jdbcType=BIGINT},
+      </if>
+      <if test="questNumber != null">
+        #{questNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromTime != null">
+        #{questFromTime,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromArts != null">
+        #{questFromArts,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromSubject != null">
+        #{questFromSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromSign != null">
+        #{questFromSign,jdbcType=VARCHAR},
+      </if>
+      <if test="questPoint != null">
+        #{questPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="questClass != null">
+        #{questClass,jdbcType=VARCHAR},
+      </if>
+      <if test="quest_videoUrl != null">
+        #{quest_videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="questContent != null">
+        #{questContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="detail_analysis != null">
+        #{detail_analysis,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.xaut.bean.Questinfo">
+    update questinfo
+    <set>
+      <if test="questNumber != null">
+        quest_number = #{questNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromTime != null and questFromTime !=''">
+        quest_from_time = #{questFromTime,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromArts != null and questFromArts !=''">
+        quest_from_arts = #{questFromArts,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromSubject != null and questFromSubject !=''">
+        quest_from_subject = #{questFromSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromSign != null and questFromSign !=''">
+        quest_from_sign = #{questFromSign,jdbcType=VARCHAR},
+      </if>
+      <if test="questPoint != null and questPoint !=''">
+        quest_point = #{questPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="questClass != null and questClass !=''">
+        quest_class = #{questClass,jdbcType=VARCHAR},
+      </if>
+      <if test="quest_videoUrl != null and quest_videoUrl !=''">
+        quest_video = #{quest_videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="questContent != null and questContent !=''">
+        quest_content = #{questContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="detail_analysis != null and detail_analysis !=''">
+        quest_analysis = #{detail_analysis,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.edu.xaut.bean.Questinfo">
+    update questinfo
+    set quest_number = #{questNumber,jdbcType=VARCHAR},
+      quest_from_time = #{questFromTime,jdbcType=VARCHAR},
+      quest_from_arts = #{questFromArts,jdbcType=VARCHAR},
+      quest_from_subject = #{questFromSubject,jdbcType=VARCHAR},
+      quest_from_sign = #{questFromSign,jdbcType=VARCHAR},
+      quest_point = #{questPoint,jdbcType=VARCHAR},
+      quest_class = #{questClass,jdbcType=VARCHAR},
+      quest_video = #{quest_videoUrl,jdbcType=VARCHAR},
+      quest_content = #{questContent,jdbcType=LONGVARCHAR},
+      quest_analysis = #{detail_analysis,jdbcType=LONGVARCHAR}
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </update>
+</mapper>

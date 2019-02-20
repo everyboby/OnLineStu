@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.xaut.dao.ExamPointMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.xaut.bean.ExamPoint">
+		<id column="point_id" jdbcType="INTEGER" property="pointId" />
+		<result column="point_think_flag" jdbcType="VARCHAR" property="pointThinkFlag" />
+		<result column="point_name" jdbcType="VARCHAR" property="pointName" />
+		<result column="point_videourl" jdbcType="VARCHAR" property="pointVideourl" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		point_id, point_think_flag,point_videourl, point_name
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from exam_point
+		where point_id = #{pointId,jdbcType=BIGINT}
+	</select>
+	<select id="selectAllPoint" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from exam_point
+	</select>
+	<select id="selectPointByCon" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from exam_point
+		where 1=1
+		<if test="_parameter!=null">
+			and point_name like
+			concat('%',#{reqWord,jdbcType=VARCHAR},'%')
+		</if>
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from exam_point
+		where point_id = #{pointId,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByThinkFlag" parameterType="java.lang.String">
+		delete from
+		exam_point
+		where point_think_flag like concat('%',#{pointThinkFlag,jdbcType=INTEGER},'%')
+	</delete>
+	<insert id="insertForeach" parameterType="java.util.List"
+		useGeneratedKeys="false">
+		insert into exam_point (point_id, point_think_flag, point_name
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.pointId,jdbcType=INTEGER},
+			#{item.pointThinkFlag,jdbcType=VARCHAR},
+			#{item.pointName,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="cn.edu.xaut.bean.ExamPoint">
+		update exam_point set
+		point_videourl = #{pointVideourl,jdbcType=VARCHAR}
+		where point_id =
+		#{pointId,jdbcType=BIGINT}
+	</update>
+</mapper>

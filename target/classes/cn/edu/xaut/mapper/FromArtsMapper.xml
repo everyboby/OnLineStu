@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.xaut.dao.FromArtsMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.xaut.bean.FromArts">
+		<id column="arts_id" jdbcType="INTEGER" property="artsId" />
+		<result column="arts_name" jdbcType="CHAR" property="artsName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		arts_id, arts_name
+	</sql>
+	<select id="selectAllarts" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from from_arts
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from from_arts
+		where arts_id = #{artsId,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from from_arts
+		where arts_id = #{artsId,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="cn.edu.xaut.bean.FromArts">
+		insert into from_arts (arts_id, arts_name)
+		values (#{artsId,jdbcType=INTEGER}, #{artsName,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.edu.xaut.bean.FromArts">
+		insert into from_arts
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="artsId != null">
+				arts_id,
+			</if>
+			<if test="artsName != null">
+				arts_name,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="artsId != null">
+				#{artsId,jdbcType=INTEGER},
+			</if>
+			<if test="artsName != null">
+				#{artsName,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<!--<update id="updateByPrimaryKeySelective" parameterType="cn.edu.xaut.bean.FromArts"> -->
+	<!--update from_arts -->
+	<!--<set> -->
+	<!--<if test="artsName != null"> -->
+	<!--arts_name = #{artsName,jdbcType=CHAR}, -->
+	<!--</if> -->
+	<!--</set> -->
+	<!--where arts_id = #{artsId,jdbcType=INTEGER} -->
+	<!--</update> -->
+
+	<update id="updateByPrimaryKey" parameterType="cn.edu.xaut.bean.FromArts">
+		update from_arts
+		set arts_name = #{artsName,jdbcType=CHAR}
+		where arts_id = #{artsId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

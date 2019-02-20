@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.xaut.dao.ThinkingAddressMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.xaut.bean.ThinkingAddress">
+		<id column="address_id" jdbcType="INTEGER" property="addressId" />
+		<result column="address_key" jdbcType="VARCHAR" property="key" />
+		<result column="address_parent" jdbcType="VARCHAR" property="parent" />
+		<result column="address_text" jdbcType="VARCHAR" property="text" />
+		<result column="address_dir" jdbcType="VARCHAR" property="dir" />
+		<result column="address_brush" jdbcType="VARCHAR" property="brush" />
+		<result column="address_loc" jdbcType="VARCHAR" property="loc" />
+		<result column="address_think_flag" jdbcType="VARCHAR"
+			property="addressThinkFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		address_id, address_key, address_parent,address_text,
+		address_dir, address_brush,
+		address_loc, address_think_flag
+	</sql>
+	<select id="selectThinkingAddressByFlag" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from thinking_address
+		where address_think_flag
+		=#{addressThinkFlag,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByFlag" parameterType="java.lang.String">
+		delete from
+		thinking_address
+		where address_think_flag =
+		#{addressThinkFlag,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertForeach" parameterType="java.util.List"
+		useGeneratedKeys="false">
+		insert into thinking_address (address_key, address_parent,
+		address_text, address_dir, address_brush,
+		address_loc,
+		address_think_flag)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.key,jdbcType=VARCHAR},
+			#{item.parent,jdbcType=VARCHAR},
+			#{item.text,jdbcType=VARCHAR},
+			#{item.dir,jdbcType=VARCHAR},
+			#{item.brush,jdbcType=VARCHAR},
+			#{item.loc,jdbcType=VARCHAR},
+			#{item.addressThinkFlag,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+</mapper>

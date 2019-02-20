@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.xaut.dao.QuestDetailMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.xaut.bean.QuestDetail">
+    <id column="detail_id" jdbcType="BIGINT" property="detailId" />
+    <result column="detail_video" jdbcType="VARCHAR" property="detailVideo" />
+    <result column="detail_quest_id" jdbcType="BIGINT" property="detailQuestId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.edu.xaut.bean.QuestDetail">
+    <result column="detail_analysis" jdbcType="LONGVARCHAR" property="detailAnalysis" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    detail_id, detail_video, detail_quest_id
+  </sql>
+  <sql id="Blob_Column_List">
+    detail_analysis
+  </sql>
+  <select id="selectByForeignKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from quest_detail
+    join questinfo on
+    quest_detail.detail_id=questinfo.quest_id
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from quest_detail
+    where detail_id = #{detailId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.xaut.bean.QuestDetail">
+    insert into quest_detail (detail_id, detail_video, detail_quest_id, 
+      detail_analysis)
+    values (#{detailId,jdbcType=BIGINT}, #{detailVideo,jdbcType=VARCHAR}, #{detailQuestId,jdbcType=BIGINT}, 
+      #{detailAnalysis,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.xaut.bean.QuestDetail">
+    insert into quest_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="detailId != null">
+        detail_id,
+      </if>
+      <if test="detailVideo != null">
+        detail_video,
+      </if>
+      <if test="detailQuestId != null">
+        detail_quest_id,
+      </if>
+      <if test="detailAnalysis != null">
+        detail_analysis,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="detailId != null">
+        #{detailId,jdbcType=BIGINT},
+      </if>
+      <if test="detailVideo != null">
+        #{detailVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="detailQuestId != null">
+        #{detailQuestId,jdbcType=BIGINT},
+      </if>
+      <if test="detailAnalysis != null">
+        #{detailAnalysis,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.xaut.bean.QuestDetail">
+    update quest_detail
+    <set>
+      <if test="detailVideo != null">
+        detail_video = #{detailVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="detailQuestId != null">
+        detail_quest_id = #{detailQuestId,jdbcType=BIGINT},
+      </if>
+      <if test="detailAnalysis != null">
+        detail_analysis = #{detailAnalysis,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where detail_id = #{detailId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.edu.xaut.bean.QuestDetail">
+    update quest_detail
+    set detail_video = #{detailVideo,jdbcType=VARCHAR},
+      detail_quest_id = #{detailQuestId,jdbcType=BIGINT},
+      detail_analysis = #{detailAnalysis,jdbcType=LONGVARCHAR}
+    where detail_id = #{detailId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.xaut.bean.QuestDetail">
+    update quest_detail
+    set detail_video = #{detailVideo,jdbcType=VARCHAR},
+      detail_quest_id = #{detailQuestId,jdbcType=BIGINT}
+    where detail_id = #{detailId,jdbcType=BIGINT}
+  </update>
+</mapper>

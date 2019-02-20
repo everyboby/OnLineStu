@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.xaut.dao.ThinkinginfoMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.xaut.bean.Thinkinginfo">
+		<id column="think_id" jdbcType="INTEGER" property="thinkId" />
+		<result column="think_date" jdbcType="TIMESTAMP" property="thinkdate" />
+		<result column="think_user_name" jdbcType="VARCHAR" property="thinkUserName" />
+		<result column="think_theme" jdbcType="VARCHAR" property="thinkTheme" />
+		<result column="think_img" jdbcType="VARCHAR" property="thinkImg" />
+		<result column="think_flag" jdbcType="VARCHAR" property="thinkFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		think_id, think_date, think_user_name, think_theme,
+		think_img,think_flag
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from thinkinginfo
+		where think_id = #{thinkId,jdbcType=INTEGER}
+	</select>
+	<!--所有 -->
+	<select id="selectAll" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from thinkinginfo
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		thinkinginfo
+		where think_id = #{thinkId,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="cn.edu.xaut.bean.Thinkinginfo">
+		insert into thinkinginfo
+		(think_id, think_date, think_user_name,
+		think_theme,
+		think_img,think_flag)
+		values
+		(#{thinkId,jdbcType=INTEGER},
+		#{thinkdate,jdbcType=TIMESTAMP},
+		#{thinkUserName,jdbcType=VARCHAR},
+		#{thinkTheme,jdbcType=VARCHAR},
+		#{thinkImg,jdbcType=VARCHAR},
+		#{thinkFlag,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.edu.xaut.bean.Thinkinginfo"
+		useGeneratedKeys="true" keyProperty="thinkId">
+		insert into thinkinginfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="thinkId != null">
+				think_id,
+			</if>
+			<if test="thinkdate != null">
+				think_date,
+			</if>
+			<if test="thinkUserName != null">
+				think_user_name,
+			</if>
+			<if test="thinkTheme != null">
+				think_theme,
+			</if>
+			<if test="thinkImg != null">
+				think_img,
+			</if>
+			<if test="thinkFlag != null">
+				think_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="thinkId != null">
+				#{thinkId,jdbcType=INTEGER},
+			</if>
+			<if test="thinkdate != null">
+				#{thinkdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="thinkUserName != null">
+				#{thinkUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="thinkTheme != null">
+				#{thinkTheme,jdbcType=VARCHAR},
+			</if>
+			<if test="thinkImg != null">
+				#{thinkImg,jdbcType=VARCHAR},
+			</if>
+			<if test="thinkFlag != null">
+				#{thinkFlag,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.edu.xaut.bean.Thinkinginfo">
+		update thinkinginfo
+		<set>
+			<if test="thinkdate != null">
+				think_date = #{thinkdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="thinkUserName != null">
+				think_user_name = #{thinkUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="thinkTheme != null">
+				think_theme = #{thinkTheme,jdbcType=VARCHAR},
+			</if>
+			<if test="thinkImg != null">
+				think_img = #{thinkImg,jdbcType=VARCHAR},
+			</if>
+			<if test="thinkFlag != null">
+				think_flag=#{thinkFlag,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where think_id = #{thinkId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.edu.xaut.bean.Thinkinginfo">
+		update
+		thinkinginfo
+		set think_date = #{thinkdate,jdbcType=TIMESTAMP},
+		think_user_name = #{thinkUserName,jdbcType=VARCHAR},
+		think_theme =
+		#{thinkTheme,jdbcType=VARCHAR},
+		think_img =
+		#{thinkImg,jdbcType=VARCHAR},
+		think_flag=#{thinkFlag,jdbcType=VARCHAR}
+		where think_id =
+		#{thinkId,jdbcType=INTEGER}
+	</update>
+</mapper>

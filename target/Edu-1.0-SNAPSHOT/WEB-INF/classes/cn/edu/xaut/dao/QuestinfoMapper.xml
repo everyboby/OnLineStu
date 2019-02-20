@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.xaut.dao.QuestinfoMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.xaut.bean.Questinfo">
+    <id column="quest_id" jdbcType="BIGINT" property="questId" />
+    <result column="quest_number" jdbcType="INTEGER" property="questNumber" />
+    <result column="quest_from_time" jdbcType="VARCHAR" property="questFromTime" />
+    <result column="quest_from_arts" jdbcType="VARCHAR" property="questFromArts" />
+    <result column="quest_from_subject" jdbcType="VARCHAR" property="questFromSubject" />
+    <result column="quest_from_sign" jdbcType="VARCHAR" property="questFromSign" />
+    <result column="quest_point" jdbcType="VARCHAR" property="questPoint" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.edu.xaut.bean.Questinfo">
+    <result column="quest_content" jdbcType="LONGVARCHAR" property="questContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    quest_id, quest_number, quest_from_time, quest_from_arts, quest_from_subject, quest_from_sign
+  </sql>
+  <sql id="Blob_Column_List">
+    quest_content
+  </sql>
+  <!--<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">-->
+  <!--select-->
+  <!--<include refid="Base_Column_List" />-->
+  <!--,-->
+  <!--<include refid="Blob_Column_List" />-->
+    <!--from questinfo-->
+    <!--where quest_id = #{questId,jdbcType=BIGINT}-->
+  <!--</select>-->
+
+<!--TODO-->
+  <!--多条件混合查询存在问题-->
+  <select id="selectByAnyCondition" resultMap="BaseResultMap">
+    select * from questinfo where
+    (quest_from_time=#{questFromTime} or #{questFromTime}='')AND
+    (quest_from_sign=#{questFromSign} or #{questFromSign}='')AND
+    (quest_from_arts=#{questFromArts} or #{questFromArts}='')AND
+    (quest_from_subject=#{questFromSubject} or #{questFromSubject}='')AND
+    (quest_point like #{questPoint} or #{questPoint}='')
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from questinfo
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.xaut.bean.Questinfo">
+    insert into questinfo (quest_id, quest_number, quest_from_time, 
+      quest_from_arts, quest_from_subject, quest_from_sign, 
+      quest_content)
+    values (#{questId,jdbcType=BIGINT}, #{questNumber,jdbcType=INTEGER}, #{questFromTime,jdbcType=VARCHAR}, 
+      #{questFromArts,jdbcType=VARCHAR}, #{questFromSubject,jdbcType=VARCHAR}, #{questFromSign,jdbcType=VARCHAR}, 
+      #{questContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.xaut.bean.Questinfo">
+    insert into questinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="questId != null">
+        quest_id,
+      </if>
+      <if test="questNumber != null">
+        quest_number,
+      </if>
+      <if test="questFromTime != null">
+        quest_from_time,
+      </if>
+      <if test="questFromArts != null">
+        quest_from_arts,
+      </if>
+      <if test="questFromSubject != null">
+        quest_from_subject,
+      </if>
+      <if test="questFromSign != null">
+        quest_from_sign,
+      </if>
+      <if test="questContent != null">
+        quest_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="questId != null">
+        #{questId,jdbcType=BIGINT},
+      </if>
+      <if test="questNumber != null">
+        #{questNumber,jdbcType=INTEGER},
+      </if>
+      <if test="questFromTime != null">
+        #{questFromTime,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromArts != null">
+        #{questFromArts,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromSubject != null">
+        #{questFromSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromSign != null">
+        #{questFromSign,jdbcType=VARCHAR},
+      </if>
+      <if test="questContent != null">
+        #{questContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.xaut.bean.Questinfo">
+    update questinfo
+    <set>
+      <if test="questNumber != null">
+        quest_number = #{questNumber,jdbcType=INTEGER},
+      </if>
+      <if test="questFromTime != null">
+        quest_from_time = #{questFromTime,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromArts != null">
+        quest_from_arts = #{questFromArts,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromSubject != null">
+        quest_from_subject = #{questFromSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="questFromSign != null">
+        quest_from_sign = #{questFromSign,jdbcType=VARCHAR},
+      </if>
+      <if test="questContent != null">
+        quest_content = #{questContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.edu.xaut.bean.Questinfo">
+    update questinfo
+    set quest_number = #{questNumber,jdbcType=INTEGER},
+      quest_from_time = #{questFromTime,jdbcType=VARCHAR},
+      quest_from_arts = #{questFromArts,jdbcType=VARCHAR},
+      quest_from_subject = #{questFromSubject,jdbcType=VARCHAR},
+      quest_from_sign = #{questFromSign,jdbcType=VARCHAR},
+      quest_content = #{questContent,jdbcType=LONGVARCHAR}
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.xaut.bean.Questinfo">
+    update questinfo
+    set quest_number = #{questNumber,jdbcType=INTEGER},
+      quest_from_time = #{questFromTime,jdbcType=VARCHAR},
+      quest_from_arts = #{questFromArts,jdbcType=VARCHAR},
+      quest_from_subject = #{questFromSubject,jdbcType=VARCHAR},
+      quest_from_sign = #{questFromSign,jdbcType=VARCHAR}
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </update>
+</mapper>

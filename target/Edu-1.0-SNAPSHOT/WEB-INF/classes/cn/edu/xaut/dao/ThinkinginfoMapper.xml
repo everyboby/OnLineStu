@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.xaut.dao.ThinkinginfoMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.xaut.bean.Thinkinginfo">
+    <id column="think_id" jdbcType="INTEGER" property="thinkId" />
+    <result column="think_data" jdbcType="TIMESTAMP" property="thinkData" />
+    <result column="think_user_name" jdbcType="VARCHAR" property="thinkUserName" />
+    <result column="think_theme" jdbcType="VARCHAR" property="thinkTheme" />
+    <result column="think_img" jdbcType="VARCHAR" property="thinkImg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    think_id, think_data, think_user_name, think_theme, think_img
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from thinkinginfo
+    where think_id = #{thinkId,jdbcType=INTEGER}
+  </select>
+
+
+  <!--所有-->
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from thinkinginfo
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from thinkinginfo
+    where think_id = #{thinkId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="cn.edu.xaut.bean.Thinkinginfo">
+    insert into thinkinginfo (think_id, think_data, think_user_name, 
+      think_theme, think_img)
+    values (#{thinkId,jdbcType=INTEGER}, #{thinkData,jdbcType=TIMESTAMP}, #{thinkUserName,jdbcType=VARCHAR}, 
+      #{thinkTheme,jdbcType=VARCHAR}, #{thinkImg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.xaut.bean.Thinkinginfo">
+    insert into thinkinginfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="thinkId != null">
+        think_id,
+      </if>
+      <if test="thinkData != null">
+        think_data,
+      </if>
+      <if test="thinkUserName != null">
+        think_user_name,
+      </if>
+      <if test="thinkTheme != null">
+        think_theme,
+      </if>
+      <if test="thinkImg != null">
+        think_img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="thinkId != null">
+        #{thinkId,jdbcType=INTEGER},
+      </if>
+      <if test="thinkData != null">
+        #{thinkData,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thinkUserName != null">
+        #{thinkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="thinkTheme != null">
+        #{thinkTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="thinkImg != null">
+        #{thinkImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.xaut.bean.Thinkinginfo">
+    update thinkinginfo
+    <set>
+      <if test="thinkData != null">
+        think_data = #{thinkData,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thinkUserName != null">
+        think_user_name = #{thinkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="thinkTheme != null">
+        think_theme = #{thinkTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="thinkImg != null">
+        think_img = #{thinkImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where think_id = #{thinkId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.xaut.bean.Thinkinginfo">
+    update thinkinginfo
+    set think_data = #{thinkData,jdbcType=TIMESTAMP},
+      think_user_name = #{thinkUserName,jdbcType=VARCHAR},
+      think_theme = #{thinkTheme,jdbcType=VARCHAR},
+      think_img = #{thinkImg,jdbcType=VARCHAR}
+    where think_id = #{thinkId,jdbcType=INTEGER}
+  </update>
+</mapper>
